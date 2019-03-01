@@ -1,0 +1,91 @@
+### Regression Diagnostics
+
+## Issue: Linear regression is a model
+
+## "All models are wrong, some are useful."
+			- George Box
+
+
+## Assumptions of the linear model:
+	## Linearity
+
+mod = lm(mpg ~ hp, data=mtcars)
+summary(mod)
+
+plot(mod) ## Gives me 4 diagnostic plots of that model
+
+## Plot 1: Residuals vs Leverage
+## NORMALITY   ##  95% of the values should be between -2 and 2
+## INFLUNCE    ## Few data should be beyond the red dotted curves
+		## Data points far beyond the dotted curves are 
+		## overly influential, and can change your 
+		## beta estimates by a lot all on their.
+
+
+## Plot 2: Linearity Plot (Residuals vs Fitted)
+## LINEARITY ## Is the red line showing a major curve pattern
+		(mtcars observation, Maserati Bora could be a problem)
+
+## Plot 3: Normal Quantile-Quantile
+## NORMALITY	## The values should be on the dotted line.
+		## Expect some values at the end to 'peel' away.
+		## Larger deviations from the line 
+		## Imply deviations from normality.
+
+
+## Plot 4: Scale-Location
+## EQUAL VARIANCE  (Is there only the one sigma^2 for all residuals)
+	## If the variance is increasing with the fitted responses
+	## Then the red line will be increasing / sloped up.
+	## Ideally, the line has no slope or trend.
+
+
+
+### Plot the actual variables (simple regression, two variables)
+plot( mpg ~ hp, data=mtcars)
+abline(mod) ## mod is the model from lm()
+
+### Graphical options
+## main =  "MAIN TITLE"
+## xlab = "x axis label"
+## ylab = "y axis label"
+## col = colour
+## cex = Character EXpansion
+## lab.cex = Label Character EXpansion
+## las = Orientation of axes
+## lty = Line Type (Solid, Dotted, Dashed)
+## lwd = Line WiDth
+## pch = Point CHaracter (Circles, Triangles, Letters)
+
+plot(mpg ~ hp, data=mtcars, col="Blue", cex=2, pch=17, las=1)
+abline(mod, lty=1, lwd=6, col="Red")
+
+
+
+
+### Plot ALL the variables
+pairs(mtcars)
+
+
+### Excellent reference for all things R
+http://www.statmethods.net
+
+### Reference for GGplot2
+http://www.statmethods.net/advgraphs/ggplot2.html
+
+
+library(ggplot2)
+qplot(hp, mpg, data=mtcars, geom=c("point", "smooth"),
+   method="lm", formula=y~x)
+
+
+
+### qplot the ggplot2 version of plot()
+### qplot(x,y    ## The x and y values of interest
+### 	data =    the data.frame of interest
+###	geom=c()  what type of geometric shapes to include
+		( "point","smooth" will give you the prediction bands)
+###	method="lm"   linear model (regression) method
+###	formula=y~x	self explanatory
+###	color=cyl	if you wish to split by a 3rd variable, split by color
+
